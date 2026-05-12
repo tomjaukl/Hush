@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="logging">
+        <h1>Welcome to Hush</h1>
+        <p>Feeling lonely? Join the conversation!</p>
+        <input type="text" placeholder="Your nickname" id="nickname">
+        <button onclick="joinHush()" id="join-button">Join Hush</button>
+    </div>
+    <div hidden id="chat">
+        <h1>Hush Chat</h1>
+        <div id="messages" style="border: black solid 1px;">
+            <!-- Messages will appear here -->
+        </div>
+        <input type="text" id="message-input" placeholder="Your Message">
+        <button id="send-button">Send</button>
+    </div>
+
+    <script>
+        let socket;
+        let nickname;
+        function startSocket() {
+            socket = new WebSocket('ws://localhost:3000')  // now connect
+            socket.onopen = () => {
+                console.log(nickname + " has joned the chat.")
+                socket.send(`joined:${nickname}`)  // send the nickname to the server
+            }
+        }
+        function checkNickname(nickname) {
+            if (nickname.length === 0) {
+                alert("Please enter a nickname.");
+                return false;
+            }
+            return true;
+        }
+        function joinHush() {
+            const loggingDiv = document.getElementById('logging');
+            const chatDiv = document.getElementById('chat');
+            nickname = document.getElementById('nickname').value.trim();
+            if (!checkNickname(nickname)) {
+                return;
+            }
+            loggingDiv.hidden = true;
+            chatDiv.hidden = false;
+            console.log("joinHushFunction called");
+            startSocket();
+        }
+    </script>
+</body>
+</html>
