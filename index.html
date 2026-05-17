@@ -9,19 +9,20 @@
 <body>
     <div id="logging">
         <h1>Welcome to Hush</h1>
-        <p>Feeling lonely? Join the conversation!</p>
+        <p>Want to chat? You are at right place!</p>
         <div id="userClicks">
             <input type="text" placeholder="Your nickname" id="nickname">
             <button onclick="joinHush()" id="join-button">Join Hush</button>
         </div>
     </div>
     <div hidden id="chat">
-        <h1>Hush Chat</h1>
-        <div id="messages" style="border: black solid 1px;">
-            <!-- Messages will appear here -->
+        <h1>Hush Chat 🤫</h1>
+        <div id="messages">
         </div>
-        <input type="text" id="message-input" placeholder="Your Message">
-        <button onClick="sendMessage()" id="send-button">Send</button>
+        <div id="messageInputContainer">
+            <input type="text" id="message-input" placeholder="Your Message">
+            <button onClick="sendMessage()" id="send-button">Send</button>
+        </div>
     </div>
 
     <script src="script.js"></script>

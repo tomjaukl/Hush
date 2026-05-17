@@ -12,12 +12,18 @@ const messagesContainer = document.getElementById("messages");
 
 function addMessage(sender, content) {
   const message = document.createElement("p");
-  message.textContent = `${sender}: ${content}`;
+  message.textContent = `${getCurrentTime()}  ${sender}: ${content}`;
   messagesContainer.appendChild(message);
 }
 
 function startSocket() {
-  socket = new WebSocket("ws://localhost:3000"); // now connect
+  let wsUrl;
+  if (window.location.hostname === 'localhost') {
+    wsUrl = 'ws://localhost:3000'
+  } else {
+    wsUrl = `wss://${window.location.hostname}`
+  }
+  socket = new WebSocket(wsUrl)
   socket.onopen = () => {
     console.log(nickname + " has joned the chat.");
     socket.send(JSON.stringify({ type: "join", nickname: nickname }));
@@ -31,6 +37,16 @@ function startSocket() {
     }
   };
 }
+
+function getCurrentTime(){
+  const d = new Date();
+  const hours = d.getHours()
+  const minutes = d.getMinutes()
+  const seconds = d.getSeconds()
+  const fullTime = `${hours}:${minutes}:${seconds}`;
+  return fullTime;
+}
+console.log(getCurrentTime())
 
 function checkNickname(nickname) {
   if (nickname.length === 0) {

@@ -27,10 +27,18 @@
 
 
 const WebSocket = require('ws')
+const express = require('express')
+const app = express()
 
-const server = new WebSocket.Server({ port: 3000 })
+app.use(express.static('.'))
 
-console.log('Hush server running on ws://localhost:3000')
+const port = process.env.PORT || 3000
+const httpServer = app.listen(port, () => {
+    console.log(`Hush running on port ${port}`)
+})
+const server = new WebSocket.Server({ server: httpServer })
+
+console.log('Hush server running')
 
 // You can create variable right into socket by socket.{variableName}
 
